@@ -2,12 +2,16 @@
 import React from 'react'
 import { useModal } from '@/context/ModalContext'
 import SignInModal from './SignInModal'
+import ConfirmationModal from './ConfirmationModal'
+
 
 
 
 
  const ModalLookup = {
-    SignInModal: SignInModal
+    SignInModal: SignInModal,
+    ConfirmationModal:ConfirmationModal
+    
   };
 
 

@@ -123,12 +123,12 @@ const Navbar = () => {
                 : "max-h-0 opacity-0 pointer-events-none"
             } `}
           >
-            <div className="flex border-b border-gray-700/20 w-full gap-1 justify-center  px-4 pt-3 pb-1  items-center">
+            <Link href={"/cart"}  className="flex border-b border-gray-700/20 w-full gap-1 justify-center  px-4 pt-3 pb-1  items-center">
               <li className="text-sm">Cart</li>{" "}
               <i className=" ">
                 <GiShoppingCart />
               </i>{" "}
-            </div>
+            </Link>
             {/* lightmode */}
             <div className="flex border-b border-gray-700/20 w-full gap-1 justify-center  px-4 pt-3 pb-1  items-center">
               <li className="text-sm">Light </li>{" "}
@@ -200,6 +200,7 @@ const Navbar = () => {
           {navLinks.map((items, index) => {
             return (
               <Link
+                onClick={() => navDropFunc(1)}
                 href={items.url}
                 key={index}
                 className=" flex w-full  active:bg-gray-200/50  py-2 pl-2 "

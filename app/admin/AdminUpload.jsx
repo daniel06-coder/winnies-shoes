@@ -41,6 +41,7 @@ const AdminUpload = ({session}) => {
     const productPrice = document.querySelector("input[name='productPrice']").value;
     const discountProductPrice = document.querySelector("input[name='discountProductPrice']").value;
     const productAmount = document.querySelector("input[name='productAmount']").value;
+    const productDescription = document.querySelector("textarea[name='productDescription']").value;
     const colorAvailable = document.querySelector("input[name='colorAvailable']").value;
     const sizeAvailable = document.querySelector("input[name='sizeAvailable']").value;
 
@@ -50,6 +51,7 @@ const AdminUpload = ({session}) => {
         productPrice,
         discountProductPrice,
         productAmount,
+        productDescription,
         colorAvailable,
         sizeAvailable,
         imageUrl,
@@ -123,10 +125,11 @@ const AdminUpload = ({session}) => {
               Discount Price
             </label>
             <input
-              type="number"
+              type="text"
               name="discountProductPrice"
               className="h-10 border border-gray-400 rounded-sm px-2 py-1 outline-none mb-2"
             />
+          
 
             <label
               htmlFor="productAmount"
@@ -139,6 +142,21 @@ const AdminUpload = ({session}) => {
               name="productAmount"
               className="h-10 border border-gray-400 rounded-sm px-2 py-1 outline-none mb-2"
             />
+
+            
+            <label
+              htmlFor="productDescription"
+              className="text-md font-semibold uppercase lg:row-span-2  "
+            >
+              Product Description
+            </label>
+            <textarea
+              type="text"
+              name="productDescription"
+              className="h-10 border border-gray-400 rounded-sm px-2 py-1 outline-none mb-2"
+            />
+
+
 
             <label
               htmlFor="colorAvailable"

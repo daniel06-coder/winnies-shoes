@@ -133,7 +133,7 @@ const page = () => {
             href={"/"}
             className=" max-md:hidden flex justify-center   items-center group max-lg:active:bg-gray-200/70 lg:hover:bg-[#fb3d80] bg-[#fb3d93]  transform  bg-[#fb3d80] rounded-sm mt-2 w-fit transition-all duration-300 py-3 px-2  "
           >
-            <button className="uppercase text-white  text-sm ">
+            <button onClick={() => openModal('SignInModal')} className="uppercase text-white  text-sm ">
               {" "}
               Click to start Shopping
             </button>
