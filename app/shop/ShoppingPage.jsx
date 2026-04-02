@@ -10,6 +10,7 @@ import { GiShoppingCart } from "react-icons/gi";
 // import { FaRegEye } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
+import { isAdmin } from '../admin/isAdmin';
 
 
 
@@ -40,15 +41,16 @@ export const addToCart = async(userId, product) =>{
         addedAt: Date.now(),
       }
     )
-    console.log("added to cart in firebase!")
+    // console.log("added to cart in firebase!")
   } catch(error){
   console.error("error handling cart:", error)
 }
 };
 
 
+
 const ShoppingPage = ( {session} ) => {
-  console.log("SESSION:", session);
+  // console.log("SESSION:", session);
 
 
 const [cartIndicator, setCartIndicator] = useState("false");
@@ -193,7 +195,6 @@ const [cartIndicator, setCartIndicator] = useState("false");
   return (
     // remember to remove this when creating the cards
     <main className="relative">
-
       {/* cart page link */}
       <Link
         href={"/cart"}
@@ -357,11 +358,20 @@ const [cartIndicator, setCartIndicator] = useState("false");
             <div className="w-full flex justify-center text-sm text-gray-600 ">
               <p> {product.productAmount} left </p>
             </div>
-            <div className="hidden">
-              <button onClick={() => handleDelete(product.id)}>
-                <MdDelete />
-              </button>
-            </div>
+
+            {/* {isAdmin(session) && (
+                            <Link href={"/admin"} className="text-center">
+                              <button className="text-sm">Upload</button>
+                            </Link>
+                          )} */}
+
+            {isAdmin(session) && (
+              <div className="">
+                <button onClick={() => handleDelete(product.id)}>
+                  <MdDelete />
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>

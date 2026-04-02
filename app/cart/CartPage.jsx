@@ -21,7 +21,7 @@ return snapshot.docs.map((doc) => {
     ...data,
     productPrice: Number(data.productPrice) || 0,
     qty: Number(data.qty) || 1,
-    productAmount: Number(data.productAmount) || 1, // ✅ FIXED
+    productAmount: Number(data.productAmount) || 1, 
   };
 });
 
@@ -35,7 +35,7 @@ const CartPage = () => {
   const [cart, setCart] = useState([]);
     const { data: session } = useSession();
     const userId = session?.user?.email || "guest-user";
-    console.log(session)
+   
 
      const { modal, openModal } = useModal();
 
@@ -60,7 +60,7 @@ const CartPage = () => {
 
       setCart(updatedCart);
     } catch (error) {
-      console.log("Error deleting item:", error);
+      // console.log("Error deleting item:", error);
     }
   };
 
@@ -153,7 +153,7 @@ const encodedMessage = encodeURIComponent(message);
           <FaArrowLeft className="h-6 w-6 p-1 rounded-full text-center text-white bg-black/70 backdrop-blur-sm" />
         </Link>
         <h1 className="text-md font-bold">
-          Welcome {session?.user?.name.slice(0, 7)}
+          Welcome {session?.user?.name.slice(0, session?.user?.name.indexOf(' '))}
         </h1>
         {/* <h5>Your carted items are below</h5> */}
       </div>

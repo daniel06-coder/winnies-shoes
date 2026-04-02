@@ -18,7 +18,7 @@ import ConfirmationModal from './ConfirmationModal'
 
 const ModalManager = () => {
     const { modal, closeModal } = useModal();
-    console.log({modal})
+    // console.log({modal})
 
     if(!modal) 
     return null;

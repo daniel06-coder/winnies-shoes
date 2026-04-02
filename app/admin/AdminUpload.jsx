@@ -6,11 +6,20 @@ import { addDoc, collection } from '@firebase/firestore';
 import { db } from '@/config/firebaseConfig';
 
 const AdminUpload = ({session}) => {
+  const allowedEmails = ["anyanwud898@gmail.com", "winifredobianuju53@gmail.com"];
+
+  const isAdmin = session && allowedEmails.includes(session.user.email);
 
 
   const [imageSelected, setImageSelected] = useState(null)
 
   const uploadImage = async ( ) => {
+    
+     if (!isAdmin) {
+       alert("You are not allowed to upload products");
+       return;
+     }
+
       if (!imageSelected) {
         alert("Select an image first!");
         return;
@@ -25,7 +34,7 @@ const AdminUpload = ({session}) => {
         )
 
         const imageUrl = res.data.secure_url;
-        console.log("Uploaded image:", imageUrl)
+        // console.log("Uploaded image:", imageUrl)
 
         saveProductToFirestore(imageUrl)
     } catch (error) {
@@ -46,27 +55,44 @@ const AdminUpload = ({session}) => {
     const sizeAvailable = document.querySelector("input[name='sizeAvailable']").value;
 
     try {
-      await addDoc(collection(db, "winnies-shoes"), {
-        productName,
-        productPrice,
-        discountProductPrice,
-        productAmount,
-        productDescription,
-        colorAvailable,
-        sizeAvailable,
-        imageUrl,
-        createdAt: new Date(),
+      console.log("Session:", session);
+      console.log("Email:", session?.user?.email);
+
+      await fetch("/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productName,
+          productPrice,
+          discountProductPrice,
+          productAmount,
+          productDescription,
+          colorAvailable,
+          sizeAvailable,
+          imageUrl,
+          createdAt: new Date(),
+        }),
       });
+
+      // await addDoc(collection(db, "winnies-shoes"), {
+       
+      // });
 
       alert("product saved succesfully")
     } catch (error) {
-      console.log('error saving products', error)
-      alert('error saving products', error)
+      // console.log('error saving products', error)
+      alert('Product was not sent! Try Again!', error)
     }
+
+    
 
 
   }
 
+
+  
 
 
 
@@ -75,17 +101,23 @@ const AdminUpload = ({session}) => {
       <div className=" pt-5 md:pt-10 w-full">
         {/* image product-name p-price amount-available colors-available size-available */}
 
-        <form action="" className=" flex lg:justify-between lg:items-center lg:px-3  max-lg:flex-col w-full max-md:w-full px-2 ">
-
+        <form
+          action=""
+          className=" flex lg:justify-between lg:items-center lg:px-3  max-lg:flex-col w-full max-md:w-full px-2 "
+        >
           {/* image upload */}
           <div className="w-full flex  flex-col lg:mb-10 items-center">
-            <label htmlFor="file" name="file" className='text-md uppercase font-bold mb-4'>
+            <label
+              htmlFor="file"
+              name="file"
+              className="text-md uppercase font-bold mb-4"
+            >
               Upload Photo here
             </label>
             <div className="flex relative border h-[8rem] w-[8rem] md:h-[11rem]  md:w-[11rem] items-center justify-center">
               <IoIosAddCircle className="absolute w-fit text-xl -z-1 pointer-event-none" />
               <input
-              onChange={(e) => setImageSelected(e.target.files[0])}
+                onChange={(e) => setImageSelected(e.target.files[0])}
                 type="file"
                 placeholder=""
                 className=" bg-white-200/20 w-full h-full p-5"
@@ -93,7 +125,7 @@ const AdminUpload = ({session}) => {
             </div>
           </div>
 
-          <div className='flex lg:w-full flex-col lg:px-15  gap-1 pt-8 pb-6'>
+          <div className="flex lg:w-full flex-col lg:px-15  gap-1 pt-8 pb-6">
             <label
               htmlFor="productName"
               className="text-md font-semibold uppercase   "
@@ -129,7 +161,6 @@ const AdminUpload = ({session}) => {
               name="discountProductPrice"
               className="h-10 border border-gray-400 rounded-sm px-2 py-1 outline-none mb-2"
             />
-          
 
             <label
               htmlFor="productAmount"
@@ -143,7 +174,6 @@ const AdminUpload = ({session}) => {
               className="h-10 border border-gray-400 rounded-sm px-2 py-1 outline-none mb-2"
             />
 
-            
             <label
               htmlFor="productDescription"
               className="text-md font-semibold uppercase lg:row-span-2  "
@@ -155,8 +185,6 @@ const AdminUpload = ({session}) => {
               name="productDescription"
               className="h-10 border border-gray-400 rounded-sm px-2 py-1 outline-none mb-2"
             />
-
-
 
             <label
               htmlFor="colorAvailable"
@@ -181,9 +209,21 @@ const AdminUpload = ({session}) => {
               name="sizeAvailable"
               className="h-10 border border-gray-400 rounded-sm px-2 py-1 outline-none mb-2"
             />
-          <button type='button' onClick={uploadImage} className='bg-gray-700 m-auto w-full lg:w-fit py-2 px-1 lg:px-10 rounded-sm text-white text-xl'>Submit</button>
-          </div>
 
+            {isAdmin ? (
+              <button
+                type="button"
+                onClick={uploadImage}
+                className="bg-gray-700 m-auto w-full lg:w-fit py-2 px-1 lg:px-10 rounded-sm text-white text-xl"
+              >
+                Submit
+              </button>
+            ) : (
+              <p className="text-red-500 text-center">
+                You are not allowed to upload products
+              </p>
+            )}
+          </div>
         </form>
       </div>
     </main>

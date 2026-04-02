@@ -15,6 +15,7 @@ import { FaQuestion } from "react-icons/fa6";
 import { RiMenu5Line } from "react-icons/ri";
 import { useSession } from "next-auth/react";
 import { useModal } from "@/context/ModalContext";
+import { isAdmin } from "@/app/admin/isAdmin";
 
 const Navbar = () => {
   const navLinks = [
@@ -34,13 +35,15 @@ const Navbar = () => {
   };
 
   const {modal, openModal} = useModal()
-  console.log({modal,openModal})
+  // console.log({modal,openModal})
 
   return (
     <nav className="flex justify-between items-center z-30  shadow-sm max-md:px-2  p-3">
       <RiMenu5Line
         onClick={() => navDropFunc(1)}
-        className={`lg:hidden text-xl z-32 ${navDrop === 1 ? 'flex fixed' : " "}`}
+        className={`lg:hidden text-xl z-32 ${
+          navDrop === 1 ? "flex fixed" : " "
+        }`}
       />
       <div className="hover:bg-gray-200/50 max-lg:m-auto   p-1">
         <p className="text-md text-gray-700 max-lg:absolute max-lg:left-1/2 max-lg:transform max-lg:-translate-x-1/2 max-lg:top-5   ">
@@ -91,9 +94,11 @@ const Navbar = () => {
                 Sign Out
               </button>
               <button className="text-sm">View Profile</button>
-              <Link href={"/admin"} className="text-center">
-                <button className="text-sm">Upload</button>
-              </Link>
+              {isAdmin(session) && (
+                <Link href={"/admin"} className="text-center">
+                  <button className="text-sm">Upload</button>
+                </Link>
+              )}
             </div>
           </div>
         ) : (
@@ -123,7 +128,10 @@ const Navbar = () => {
                 : "max-h-0 opacity-0 pointer-events-none"
             } `}
           >
-            <Link href={"/cart"}  className="flex border-b border-gray-700/20 w-full gap-1 justify-center  px-4 pt-3 pb-1  items-center">
+            <Link
+              href={"/cart"}
+              className="flex border-b border-gray-700/20 w-full gap-1 justify-center  px-4 pt-3 pb-1  items-center"
+            >
               <li className="text-sm">Cart</li>{" "}
               <i className=" ">
                 <GiShoppingCart />
@@ -179,6 +187,11 @@ const Navbar = () => {
               <div className="text-sm text-black font-[sans-serif]">
                 {session?.user?.name}
               </div>
+              {isAdmin(session) && (
+                <Link href={"/admin"} className="text-center">
+                  <button className="text-sm">Upload</button>
+                </Link>
+              )}
               <button
                 onClick={() => signOut("google")}
                 className="text-sm p-2  rounded-sm text-gray-700 bg-gray-200/50 active:bg-gray-200/70  "
