@@ -1,5 +1,5 @@
 
-import { adminDb } from "@/config/firebaseAdmin";
+import { adminDb } from "@/config/firebaseConfig";
 
 export async function POST(req) {
   const { id, session } = await req.json();
