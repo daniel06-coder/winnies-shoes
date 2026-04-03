@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { VscHome } from "react-icons/vsc";
 import { CiShoppingTag, CiLight, CiDark } from "react-icons/ci";
 import { PiHighHeel } from "react-icons/pi";
@@ -16,6 +16,7 @@ import { RiMenu5Line } from "react-icons/ri";
 import { useSession } from "next-auth/react";
 import { useModal } from "@/context/ModalContext";
 import { isAdmin } from "@/app/admin/isAdmin";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const navLinks = [
@@ -25,8 +26,15 @@ const Navbar = () => {
     { label: "Contact", icon: <MdConnectWithoutContact />, url: "/#one" },
   ];
 
-  const { data: session } = useSession();
-  // console.log(session);
+
+    const {data: session, status} = useSession()
+    const router = useRouter();
+  
+    useEffect(() => {
+      if (status === 'authenticated') {
+        router.push('/shop')
+      }
+    }, [status, router])
 
   const [navDrop, setNavDrop] = useState(false);
 

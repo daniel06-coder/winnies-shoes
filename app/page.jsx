@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CiShoppingTag } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 import { MdConnectWithoutContact } from "react-icons/md";
@@ -10,11 +10,21 @@ import { MdOutlineEmail } from "react-icons/md";
 import { TiLocationOutline } from "react-icons/ti";
 import { FaWhatsapp, FaCaretDown } from "react-icons/fa";
 import { useModal } from '@/context/ModalContext';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
 
   const {modal, openModal} = useModal()
 
+  const {data: session, status} = useSession()
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/shop')
+    }
+  }, [status, router])
 
   const collectionCards = [
     { label: "Unisex Clothing", url: "/", img: "/collection/unisex.jpg" },
