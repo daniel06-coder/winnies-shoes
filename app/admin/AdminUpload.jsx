@@ -2,8 +2,8 @@
 import React, { useState } from 'react'
 import { IoIosAddCircle } from "react-icons/io";
 import axios from 'axios';
-import { addDoc, collection } from '@firebase/firestore';
-import { db } from '@/config/firebaseConfig';
+// import { addDoc, collection } from '@firebase/firestore';
+// import { db } from '@/config/firebaseConfig';
 
 const AdminUpload = ({session}) => {
   const allowedEmails = ["anyanwud898@gmail.com", "winifredobianuju53@gmail.com"];
